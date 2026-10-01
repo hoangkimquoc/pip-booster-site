@@ -5,7 +5,11 @@
  * Giai đoạn 1: regex + heuristic tần suất/like.
  */
 
-import { findExpandCommentsButton, getCommentElements, getCommentText } from './fb-adapter.js';
+import {
+  findExpandCommentsButton, getCommentElements, getCommentText, getCurrentReelId,
+  getLinksWithContext, getReelCaptionBlock, isCommentByReelOwner,
+} from './fb-adapter.js';
+import { collectPartLinks } from './part-links.js';
 
 // --- Regex patterns ---
 
@@ -33,6 +37,7 @@ const TITLE_CASE_RE = /\b([A-ZÀ-ÖØ-öø-ÿÀ-ỹ][a-zà-öø-ÿà-ỹ]+(?:\s+
 /**
  * Kết quả trả về của scrapeMovieInfo():
  * {
+ *   partLinks:    [{ url, part, fromAuthor, count }],   // link phần 2, 3… của chủ kênh
  *   youtubeLinks: [{ url, videoId, count, totalLikes }],
  *   movieTitles:  [{ title, count, totalLikes }],
  *   totalCommentsScanned: number,
@@ -45,7 +50,15 @@ export async function scrapeMovieInfo(reelContainer) {
 
   // KHÔNG fallback quét toàn trang (sẽ nhặt rác: UI, node của extension...).
   // 0 comment → trả kết quả rỗng, UI báo trung thực.
-  return parseFromComments(comments);
+  const result = parseFromComments(comments);
+  result.partLinks = collectPartLinks([...comments, ...captionSources()], getCurrentReelId());
+  return result;
+}
+
+/** Mô tả reel do chủ kênh viết — hay chứa link "Part 2 👉 …". */
+function captionSources() {
+  const block = getReelCaptionBlock();
+  return block ? [{ text: block.textContent || '', links: getLinksWithContext(block), fromAuthor: true }] : [];
 }
 
 /** Lấy comment elements; nếu chưa có thì click mở panel bình luận rồi chờ. */
@@ -78,8 +91,8 @@ function extractCommentData(commentEls) {
     const likesText = likeBtn ? likeBtn.getAttribute('aria-label') : '';
     const likesMatch = likesText.match(/^(\d+)/);
     const likes = likesMatch ? parseInt(likesMatch[1], 10) : 0;
-    return { text, likes };
-  }).filter(c => c.text.length > 0);
+    return { text, likes, links: getLinksWithContext(el), fromAuthor: isCommentByReelOwner(el) };
+  }).filter(c => c.text.length > 0 || c.links.length > 0);
 }
 
 /** Parse từ danh sách comment có cấu trúc */

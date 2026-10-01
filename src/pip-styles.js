@@ -403,6 +403,9 @@ export const PIP_STYLES = `
       flex-shrink: 0;
     }
     .movie-item-yt { color: #ef4444; }
+    .movie-item-part { color: #a78bfa; display: inline-flex; }
+    .movie-item-badge { font-size: 10px; font-weight: 700; color: #c4b5fd; padding: 2px 6px; border-radius: 999px;
+      background: rgba(124,108,255,0.18); flex-shrink: 0; }
 
     .panel-empty {
       text-align: center;

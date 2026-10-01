@@ -273,6 +273,100 @@ export function getCommentElements(reelContainer) {
   return excludeOwnNodes(els);
 }
 
+// ---------------------------------------------------------------------------
+// Link "phần tiếp theo" — chủ kênh, link trong bình luận / mô tả
+// ---------------------------------------------------------------------------
+
+/** Số ký tự chữ đứng trước link được dùng để đọc "Phần 2:", "part 3 👉"… */
+const LINK_CONTEXT_CHARS = 60;
+const OWNER_LINK_SELECTOR = '[aria-label*="chủ sở hữu" i], [aria-label*="owner" i]';
+const AUTHOR_BADGE_RE = /^(tác giả|author)$/i;
+/** Leo tối đa N tầng từ link chủ kênh để tìm khối mô tả reel (không leo ra cả trang). */
+const CAPTION_MAX_LEVELS = 6;
+const CAPTION_MAX_TEXT = 2000;
+const NOT_PROFILE_PATHS = new Set(['reel', 'reels', 'watch', 'share', 'videos', 'groups', 'events', 'hashtag', 'l.php', 'stories', 'photo', 'photos']);
+
+/** Id reel đang xem (từ URL) — để bỏ link trỏ về chính nó. */
+export function getCurrentReelId() {
+  try {
+    const m = location.pathname.match(/\/reel\/(\d+)/);
+    return m ? m[1] : new URLSearchParams(location.search).get('v');
+  } catch {
+    return null;
+  }
+}
+
+/** Khoá nhận diện trang cá nhân từ href: "id:123" (profile.php) hoặc "username". */
+function profileKey(href) {
+  try {
+    const u = new URL(href, 'https://www.facebook.com');
+    if (!/(^|\.)facebook\.com$/i.test(u.hostname)) return null;
+    if (u.pathname === '/profile.php') return u.searchParams.get('id') ? 'id:' + u.searchParams.get('id') : null;
+    const seg = u.pathname.split('/').filter(Boolean)[0];
+    return seg && !NOT_PROFILE_PATHS.has(seg.toLowerCase()) ? seg.toLowerCase() : null;
+  } catch {
+    return null;
+  }
+}
+
+function findOwnerLink() {
+  try {
+    return document.querySelector(OWNER_LINK_SELECTOR);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Mọi link trong `root` kèm đoạn chữ đứng ngay trước nó (sau link trước đó).
+ * @returns {Array<{ href: string, context: string }>}
+ */
+export function getLinksWithContext(root) {
+  const out = [];
+  let text = '';
+  let lastEnd = 0;
+  const walk = (node) => {
+    if (node.nodeType === 3) { text += node.nodeValue; return; }
+    if (node.nodeType !== 1 || node.closest?.(OWN_NODES_SELECTOR)) return;
+    if (node.tagName === 'A' && node.getAttribute('href')) {
+      out.push({ href: node.href || node.getAttribute('href'), context: text.slice(Math.max(lastEnd, text.length - LINK_CONTEXT_CHARS)) });
+      text += node.textContent;
+      lastEnd = text.length;
+      return;
+    }
+    node.childNodes.forEach(walk);
+  };
+  try { walk(root); } catch { /* DOM lạ — bỏ qua */ }
+  return out;
+}
+
+/** Bình luận này của chủ reel? (badge "Tác giả"/"Author", hoặc cùng trang cá nhân với chủ reel) */
+export function isCommentByReelOwner(commentEl) {
+  try {
+    const badge = [...commentEl.querySelectorAll('span, div')]
+      .some((el) => el.childElementCount === 0 && AUTHOR_BADGE_RE.test(el.textContent.trim()));
+    if (badge) return true;
+    const owner = findOwnerLink();
+    const ownerKey = owner && profileKey(owner.href || owner.getAttribute('href'));
+    const authorLink = commentEl.querySelector('a[href]');
+    return !!ownerKey && !!authorLink && profileKey(authorLink.href || authorLink.getAttribute('href')) === ownerKey;
+  } catch {
+    return false;
+  }
+}
+
+/** Khối mô tả reel (tên chủ kênh + caption) — leo từ link chủ kênh lên vài tầng. */
+export function getReelCaptionBlock() {
+  const owner = findOwnerLink();
+  let el = owner && owner.parentElement;
+  for (let i = 0; el && i < CAPTION_MAX_LEVELS; i++, el = el.parentElement) {
+    const len = (el.textContent || '').length;
+    if (len > CAPTION_MAX_TEXT) return null; // leo quá → đã ra khỏi khối mô tả
+    if (el.querySelectorAll('a[href]').length > 2 && len > 30) return el;
+  }
+  return null;
+}
+
 /**
  * Lấy text nội dung của comment element.
  * Ưu tiên div[dir="auto"] (FB dùng cho nội dung comment); fallback sang span.

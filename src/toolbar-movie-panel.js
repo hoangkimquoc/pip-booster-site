@@ -9,6 +9,7 @@ import { icons } from './icons.js';
 import { t } from './i18n.js';
 import { pipLog } from './debug-log.js';
 import { scrapeMovieInfo } from './comment-scraper.js';
+import { FINAL_PART } from './part-links.js';
 import { makeBtn, makeWideBtn, showProGateMessage } from './toolbar-dom-helpers.js';
 import { track } from './analytics.js';
 
@@ -108,11 +109,29 @@ function renderResult(doc, panel, result, onClose) {
   renderHeader(doc, panel, t('found_in_comments', { n: result.commentsWithHits }), onClose);
 
   const { youtubeLinks, movieTitles } = result;
-  if (!youtubeLinks.length && !movieTitles.length) {
+  const partLinks = result.partLinks || [];
+  if (!partLinks.length && !youtubeLinks.length && !movieTitles.length) {
     const empty = el(doc, 'div', 'panel-empty');
     empty.innerHTML = `${icons.filmSlate(24)}<br><br>${result.totalCommentsScanned === 0 ? t('no_comments') : t('no_movie_found')}`;
     panel.appendChild(empty);
     return;
+  }
+
+  // Phần tiếp theo (chủ kênh dán link part 2, 3…) — hữu ích nhất nên đứng đầu
+  if (partLinks.length) {
+    panel.appendChild(el(doc, 'div', 'movie-section-label', t('part_links', { n: partLinks.length })));
+    for (const p of partLinks) {
+      const item = el(doc, 'a', 'movie-item');
+      item.href = p.url;
+      item.target = '_blank';
+      item.rel = 'noopener noreferrer';
+      const icon = el(doc, 'span', 'movie-item-part');
+      icon.innerHTML = icons.skipForward(14);
+      const label = p.part == null ? t('part_video') : p.part === FINAL_PART ? t('part_final') : t('part_n', { n: p.part });
+      item.append(icon, el(doc, 'span', 'movie-item-title', label));
+      if (p.fromAuthor) item.append(el(doc, 'span', 'movie-item-badge', t('by_creator')));
+      panel.appendChild(item);
+    }
   }
 
   if (youtubeLinks.length) {
