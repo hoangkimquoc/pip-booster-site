@@ -1,0 +1,33 @@
+name: Support request
+description: Question, bug report or refund request for PiP Booster
+title: "[Support] "
+labels: ["support"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reaching out! **Never post your license key here** — this page is public.
+        For refunds, include the email you used at checkout so we can find your order.
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - Question
+        - Bug report
+        - License / activation
+        - Refund request
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What happened, and what did you expect? Screenshots help.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and OS
+      placeholder: Chrome 140 on Windows 11 / macOS 15

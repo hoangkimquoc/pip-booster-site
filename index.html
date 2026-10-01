@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PiP Booster — Watch Facebook Reels while you work</title>
+<meta name="description" content="Chrome extension that pops Facebook Reels into a floating Picture-in-Picture window that stays on top of your work. Free, with a one-time PRO upgrade.">
+<meta property="og:title" content="PiP Booster — Watch Reels while you work">
+<meta property="og:description" content="Pop any reel into a floating window that stays on top. Click to pause, next/prev, speed, cinema mode.">
+<meta property="og:image" content="img/screenshot-pip.png">
+<link rel="icon" href="img/icon-128.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Không menu (1 page = 1 goal): chỉ logo + CTA -->
+<header class="top">
+  <div class="wrap top-in">
+    <span class="logo"><img src="img/icon-128.png" alt="" width="30" height="30">PiP Booster</span>
+    <a class="btn btn-sm" href="#get">Add to Chrome</a>
+  </div>
+</header>
+
+<!-- 1. HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="pill"><i></i>Chrome extension · Windows &amp; macOS</span>
+      <h1>Watch Reels<br><span class="grad">while you work.</span></h1>
+      <p class="lead">PiP Booster pops any Facebook reel into a floating window that stays on top of your apps — with real playback controls.</p>
+      <div class="cta">
+        <a class="btn btn-lg" href="#get"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H40A16,16,0,0,0,24,64V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48ZM40,64H216v56H136a8,8,0,0,0-8,8v64H40ZM216,192H144V136h72v56Z"/></svg>Add to Chrome — Free</a>
+      </div>
+      <ul class="trust">
+        <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208Z"/></svg>Runs 100% in your browser</li>
+        <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M197.58,129.06l-51.27-29.6L117.06,50a12,12,0,0,0-20.94,0L66.58,99.43,15.31,129.06a12,12,0,0,0,0,20.94l51.27,29.6L96.12,229.1A12,12,0,0,0,107.94,236a11.82,11.82,0,0,0,5.47-1.31,12,12,0,0,0,5.47-5.58l29.19-49.57,51.51-29.72a12,12,0,0,0,0-20.76ZM175,143.85l-43.56,25.16a12,12,0,0,0-4.46,4.46L107.9,218,87.05,173.47a12,12,0,0,0-4.46-4.46L39,144.08,79.89,120.3A12.12,12.12,0,0,0,84.35,116l23.37-39.68L128,113.57a11.93,11.93,0,0,0,4.46,4.57Zm56.7-96.26a8,8,0,0,1-8,8H208v15.25a8,8,0,0,1-16,0V55.59H176.3a8,8,0,0,1,0-16H192V24.15a8,8,0,0,1,16,0V39.59h15.7A8,8,0,0,1,231.7,47.59ZM128,24.15a8,8,0,0,1-8,8H104v15.44a8,8,0,0,1-16,0V32.15H72a8,8,0,0,1,0-16H88V.71a8,8,0,0,1,16,0V16.15h16A8,8,0,0,1,128,24.15Z"/></svg>No account needed</li>
+        <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a96,96,0,1,1-21.95-61.09,8,8,0,1,1-12.49,10A80,80,0,1,0,207.6,136H184a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V143.6A95.43,95.43,0,0,1,224,128Z"/></svg>14-day money-back on PRO</li>
+      </ul>
+    </div>
+
+    <div class="stage" aria-label="Live demo">
+      <div class="desk">
+        <div class="desk-bar"><span class="dots"><i></i><i></i><i></i></span><span class="desk-url">docs · Q4 product plan</span></div>
+        <div class="desk-body">
+          <div class="desk-side"><b></b><b></b><b></b><b></b></div>
+          <div class="desk-page">
+            <div class="desk-h"></div><div class="desk-l" style="width:88%"></div><div class="desk-l" style="width:76%"></div><div class="desk-l" style="width:58%"></div>
+            <div class="desk-chart"><i style="height:40%"></i><i style="height:58%"></i><i style="height:50%"></i><i style="height:72%"></i><i style="height:86%"></i></div>
+            <div class="desk-l" style="width:70%"></div><div class="desk-l" style="width:52%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-pip" id="demo-pip">
+        <div class="demo-titlebar"><img src="img/icon-128.png" alt="">PiP Booster<span>drag me</span></div>
+        <div class="demo-frame"></div>
+        <div class="demo-note" role="status"></div>
+      </div>
+      <button class="demo-reopen" id="demo-reopen" type="button" hidden><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H40A16,16,0,0,0,24,64V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48ZM40,64H216v56H136a8,8,0,0,0-8,8v64H40ZM216,192H144V136h72v56Z"/></svg>Reopen player</button>
+      <p class="stage-hint">This is a live demo — click the video, try ⏭ next, speed and size.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. PROBLEM -->
+<section class="section">
+  <div class="wrap">
+    <p class="kicker">Sound familiar?</p>
+    <h2 class="h2">Reels weren't made for multitasking</h2>
+    <div class="pains">
+      <div class="pain"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M200,80v32a8,8,0,0,1-16,0V88H160a8,8,0,0,1,0-16h32A8,8,0,0,1,200,80ZM96,168H72V144a8,8,0,0,0-16,0v32a8,8,0,0,0,8,8H96a8,8,0,0,0,0-16ZM232,56V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></svg><h3>They take over the whole tab</h3><p>Switch to your doc and the video is gone. Switch back and you've lost your place.</p></div>
+      <div class="pain"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M207.06,72.67A111.24,111.24,0,0,0,128,40h-.4C66.07,40.21,16,91,16,153.13V176a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V152A111.25,111.25,0,0,0,207.06,72.67ZM224,176H119.71l54.76-75.3a8,8,0,0,0-12.94-9.42L99.92,176H32V153.13c0-3.08.15-6.12.43-9.13H56a8,8,0,0,0,0-16H35.27c10.32-38.86,44-68.24,84.73-71.66V80a8,8,0,0,0,16,0V56.33A96.14,96.14,0,0,1,221,128H200a8,8,0,0,0,0,16h23.67c.21,2.65.33,5.31.33,8Z"/></svg><h3>No real controls</h3><p>No seek, no speed, no proper volume — painful on long videos and tutorials.</p></div>
+      <div class="pain"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M200,32a8,8,0,0,0-8,8v69.23L72.43,34.45A15.95,15.95,0,0,0,48,47.88V208.12a16,16,0,0,0,24.43,13.43L192,146.77V216a8,8,0,0,0,16,0V40A8,8,0,0,0,200,32ZM64,207.93V48.05l127.84,80Z"/></svg><h3>Endless swiping</h3><p>Constantly reaching for the mouse to move on, and sponsored reels in between.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. SOLUTION / HOW IT WORKS -->
+<section class="section alt">
+  <div class="wrap">
+    <p class="kicker">How it works</p>
+    <h2 class="h2">One click. Reels on top of everything.</h2>
+    <div class="steps">
+      <div class="step"><b>1</b><h3>Add to Chrome</h3><p>Install PiP Booster from the Chrome Web Store. No sign-up.</p></div>
+      <div class="step"><b>2</b><h3>Open any reel</h3><p>On facebook.com, two small buttons appear on every reel.</p></div>
+      <div class="step"><b>3</b><h3>Pop it out</h3><p>Click <em>PiP</em> for a floating window, or the screen icon for cinema mode.</p></div>
+    </div>
+
+    <div class="usps">
+      <div class="usp">
+        <img src="img/hero.png" alt="Reel playing in a floating window over a document" width="1600" height="1000">
+        <div><h3>A real always-on-top window</h3><p>Built on Chrome's Document Picture-in-Picture: move it, resize it, keep it over any app while you work.</p></div>
+      </div>
+      <div class="usp">
+        <img src="img/cinema.png" alt="Cinema mode with a full-width control bar" width="1280" height="800">
+        <div><h3>Controls that make sense</h3><p>Click to pause, ±10s, 0.5x–3x speed, volume, next / previous reel, auto-play next, captions — in the window and in cinema mode.</p></div>
+      </div>
+      <div class="usp">
+        <div class="kbd-art"><kbd>Alt</kbd><span>+</span><kbd>Q</kbd></div>
+        <div><h3>Quick hide</h3><p>One shortcut pauses everything, closes the player and minimizes Chrome. Customizable — ⌥Q on Mac.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. PROOF (cam kết thay cho testimonial — chưa có review thật) -->
+<section class="section">
+  <div class="wrap promise">
+    <div class="promise-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208Z"/></svg><h3>Private by design</h3><p>Everything runs in your browser. Facebook content is never sent anywhere.</p></div>
+    <div class="promise-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a96,96,0,1,1-21.95-61.09,8,8,0,1,1-12.49,10A80,80,0,1,0,207.6,136H184a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V143.6A95.43,95.43,0,0,1,224,128Z"/></svg><h3>14-day refund</h3><p>Not happy with PRO? Email us within 14 days for a full refund.</p></div>
+    <div class="promise-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M197.58,129.06l-51.27-29.6L117.06,50a12,12,0,0,0-20.94,0L66.58,99.43,15.31,129.06a12,12,0,0,0,0,20.94l51.27,29.6L96.12,229.1A12,12,0,0,0,107.94,236a11.82,11.82,0,0,0,5.47-1.31,12,12,0,0,0,5.47-5.58l29.19-49.57,51.51-29.72a12,12,0,0,0,0-20.76ZM175,143.85l-43.56,25.16a12,12,0,0,0-4.46,4.46L107.9,218,87.05,173.47a12,12,0,0,0-4.46-4.46L39,144.08,79.89,120.3A12.12,12.12,0,0,0,84.35,116l23.37-39.68L128,113.57a11.93,11.93,0,0,0,4.46,4.57Zm56.7-96.26a8,8,0,0,1-8,8H208v15.25a8,8,0,0,1-16,0V55.59H176.3a8,8,0,0,1,0-16H192V24.15a8,8,0,0,1,16,0V39.59h15.7A8,8,0,0,1,231.7,47.59ZM128,24.15a8,8,0,0,1-8,8H104v15.44a8,8,0,0,1-16,0V32.15H72a8,8,0,0,1,0-16H88V.71a8,8,0,0,1,16,0V16.15h16A8,8,0,0,1,128,24.15Z"/></svg><h3>Pay once</h3><p>No subscription. One license, up to 3 browsers, all future PRO updates.</p></div>
+  </div>
+</section>
+
+<!-- 5. PRICING (CTA chính) -->
+<section class="section alt" id="get">
+  <div class="wrap">
+    <p class="kicker">Pricing</p>
+    <h2 class="h2">Start free. Upgrade once.</h2>
+    <div class="plans">
+      <div class="plan">
+        <h3>Free</h3>
+        <div class="price">$0</div>
+        <ul>
+          <li>Floating Picture-in-Picture window</li>
+          <li>Cinema mode</li>
+          <li>Click to pause, seek, speed, volume</li>
+          <li>Next / previous &amp; auto-play next</li>
+          <li>Captions &amp; Interested / Not interested</li>
+          <li>Quick hide shortcut</li>
+        </ul>
+        <a class="btn btn-ghost full" href="#get">Chrome Web Store — coming soon</a>
+        <p class="fine">Listing is in review</p>
+      </div>
+      <div class="plan pro">
+        <span class="badge">Lifetime</span>
+        <h3>PRO</h3>
+        <div class="price">$29<small>one-time</small></div>
+        <ul>
+          <li><b>Everything in Free</b></li>
+          <li>Engagement score on every reel</li>
+          <li>Find movies mentioned in the comments</li>
+          <li>Skip sponsored reels (optional)</li>
+          <li>Use on up to 3 browsers</li>
+          <li>All future PRO updates</li>
+        </ul>
+        <a class="btn full" href="https://buy.polar.sh/polar_cl_VhT8J2mt26Sa3eNY66IMgWEqcHpRyMsOtiOFi4Nu2Fy">Get PRO — $29</a>
+        <p class="fine">Secure checkout by Polar · 14-day money-back guarantee</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. FAQ -->
+<section class="section" id="faq">
+  <div class="wrap narrow">
+    <h2 class="h2">Questions, answered</h2>
+    <details><summary>Is it really free?</summary><p>Yes. The floating window, cinema mode and all playback controls are free forever. PRO adds the engagement score, movie finder and sponsored-reel skipping.</p></details>
+    <details><summary>How do I activate PRO?</summary><p>After checkout you get a license key by email. Open the PiP Booster popup in Chrome, paste the key and click Activate.</p></details>
+    <details><summary>Can I use it on more than one computer?</summary><p>One license works on up to 3 browsers at a time. Deactivate one from the popup to move it.</p></details>
+    <details><summary>Does it work on Mac?</summary><p>Yes — Chrome on Windows, macOS and Linux (Chrome 116 or newer).</p></details>
+    <details><summary>Do you collect my Facebook data?</summary><p>No. Reels, comments and stats are processed locally and never leave your browser. Read the <a href="privacy/">privacy policy</a>.</p></details>
+    <details><summary>What if it doesn't work for me?</summary><p>Request a refund within 14 days and you get your money back in full — see the <a href="refund/">refund policy</a>.</p></details>
+  </div>
+</section>
+
+<!-- 7. FINAL CTA -->
+<section class="final">
+  <div class="wrap center">
+    <h2 class="h2">Keep the reel. Keep working.</h2>
+    <p class="lead">Add PiP Booster to Chrome in seconds — free.</p>
+    <a class="btn btn-lg" href="#get"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H40A16,16,0,0,0,24,64V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48ZM40,64H216v56H136a8,8,0,0,0-8,8v64H40ZM216,192H144V136h72v56Z"/></svg>Add to Chrome — Free</a>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <a class="logo" href="./"><img src="img/icon-128.png" alt="" width="24" height="24">PiP Booster</a>
+      <p class="fine"><a href="https://github.com/hoangkimquoc/pip-booster-site/issues/new/choose">Contact support</a></p>
+    </div>
+    <div class="foot-links">
+      <a href="privacy/">Privacy</a><a href="terms/">Terms</a><a href="refund/">Refunds</a>
+    </div>
+  </div>
+  <p class="wrap fine disclaimer">PiP Booster is an independent product and is not affiliated with or endorsed by Meta Platforms, Inc. Facebook is a trademark of Meta Platforms, Inc.</p>
+</footer>
+
+<script type="module" src="demo.js"></script>
+</body>
+</html>
