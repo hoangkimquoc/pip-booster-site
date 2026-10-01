@@ -29,6 +29,7 @@ export const ALLOWED_EVENTS = new Set([
   'license_activation_failed',
   'license_deactivated',
   'quick_hide_used',
+  'trial_started',
 ]);
 
 /** Thuộc tính cho phép: chỉ chuỗi ngắn / số / boolean, key trong danh sách. */

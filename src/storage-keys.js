@@ -11,4 +11,6 @@ export const STORAGE_KEYS = {
   /** ID ngẫu nhiên của bản cài — nhãn thiết bị khi kích hoạt key + distinct_id ẩn danh */
   installId: 'pip_booster_install_id',
   analyticsOptOut: 'pip_booster_analytics_opt_out',
+  /** Dùng thử PRO 24h — lưu cả local + sync (xem trial.js) */
+  trial: 'pip_booster_trial',
 };
