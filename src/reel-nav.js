@@ -106,6 +106,22 @@ export async function swapToAdjacentReel(dir, oldVideo) {
   return nv && nv !== oldVideo ? nv : null;
 }
 
+/** Số tầng tối đa leo từ <video> lên khung reel. */
+const MAX_REEL_ANCESTOR_LEVELS = 12;
+
+/**
+ * Khung reel chứa video = tổ tiên gần nhất đã được extension gắn điểm
+ * (__quickScore) hoặc chèn nút (data-pipbooster-injected).
+ * Phải gọi TRƯỚC khi chuyển video vào PiP/Cinema (lúc đó video còn trong trang).
+ */
+export function findReelOf(video) {
+  let el = video;
+  for (let i = 0; el && i < MAX_REEL_ANCESTOR_LEVELS; i++, el = el.parentElement) {
+    if (el.__quickScore || (el.hasAttribute && el.hasAttribute('data-pipbooster-injected'))) return el;
+  }
+  return null;
+}
+
 /** Video reel đang xem = video lớn nhất trong viewport. */
 export function findVisibleVideo() {
   let best = null;

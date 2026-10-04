@@ -12,7 +12,7 @@
 
 import { icons } from './icons.js';
 import { t } from './i18n.js';
-import { anchorMenu, makeBtn, showProGateMessage } from './toolbar-dom-helpers.js';
+import { anchorMenu, makeBtn } from './toolbar-dom-helpers.js';
 import { PRODUCT_CONFIG } from './product-config.js';
 import { buildProgressBar } from './toolbar-progress-bar.js';
 import { buildScoreBadge } from './toolbar-score-badge.js';
@@ -82,13 +82,8 @@ export function buildToolbar(video, host, opts = {}) {
     menus.push(size.menu);
     bindMenu(size.button, size.menu);
   }
-  score.badge.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (isPro) { toggleMenu(score.breakdownEl, score.badge); return; }
-    closeMenus();
-    showProGateMessage(score.breakdownEl, 'score');
-    anchorMenu(score.breakdownEl, score.badge);
-  });
+  // Chi tiết điểm (số liệu tạo nên điểm) — miễn phí cho mọi người
+  bindMenu(score.badge, score.breakdownEl);
 
   const btnClose = makeBtn(doc, icons.x(), t('close'));
   btnClose.classList.add('tb-close');

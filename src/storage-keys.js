@@ -8,9 +8,12 @@ export const STORAGE_KEYS = {
   locale: 'pip_booster_locale',
   skipAds: 'pip_booster_skip_ads',
   autoNext: 'pip_booster_auto_next',
+  skipBoring: 'pip_booster_skip_boring',
   /** ID ngẫu nhiên của bản cài — nhãn thiết bị khi kích hoạt key + distinct_id ẩn danh */
   installId: 'pip_booster_install_id',
   analyticsOptOut: 'pip_booster_analytics_opt_out',
   /** Dùng thử PRO 24h — lưu cả local + sync (xem trial.js) */
   trial: 'pip_booster_trial',
+  /** Mời đánh giá store: { uses, asks, nextAskAt, done } (xem review-prompt.js) */
+  reviewPrompt: 'pip_booster_review_prompt',
 };

@@ -30,6 +30,12 @@ export const ALLOWED_EVENTS = new Set([
   'license_deactivated',
   'quick_hide_used',
   'trial_started',
+  'content_loaded',
+  'content_error',
+  'content_unreachable',
+  'reel_skipped_boring',
+  'review_prompt_shown',
+  'review_prompt_answered',
 ]);
 
 /** Thuộc tính cho phép: chỉ chuỗi ngắn / số / boolean, key trong danh sách. */

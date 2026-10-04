@@ -32,6 +32,10 @@ export const PRODUCT_CONFIG = {
   ...(USE_PRODUCTION ? POLAR_PRODUCTION : POLAR_SANDBOX),
   features: { download: ENABLE_DOWNLOAD },
 
+  /** Trang đánh giá trên Chrome Web Store + nơi user báo lỗi / góp ý. */
+  storeReviewUrl: 'https://chromewebstore.google.com/detail/hfclcndligllaglnlbhophplnppjcgnl/reviews',
+  feedbackUrl: 'https://github.com/hoangkimquoc/pip-booster-site/issues/new/choose',
+
   /** PostHog → Project settings → Project API key (phc_...). Trống = tắt thống kê. */
   posthogProjectKey: '',
   /** https://us.i.posthog.com hoặc https://eu.i.posthog.com (theo region project) */
