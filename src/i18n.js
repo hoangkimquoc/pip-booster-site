@@ -19,6 +19,7 @@ const MESSAGES = {
     // Trigger
     trigger_title: 'Mở trong Picture-in-Picture (PiP Booster)',
     review_ask: 'Bạn thấy PiP Booster thế nào? Một đánh giá giúp mình rất nhiều.',
+    subs_pro_hint: 'Phụ đề trong cửa sổ nổi là tính năng PRO — nâng cấp trong biểu tượng PiP Booster.',
     review_rate: '★ Đánh giá',
     review_feedback: 'Báo lỗi / góp ý',
     review_close: 'Đóng',
@@ -96,7 +97,7 @@ const MESSAGES = {
     pro_feature: 'Tính năng PRO',
     pro_unlock: 'Mở khóa bằng license key<br>trong popup extension.',
     // Toasts
-    popup_blocked: 'Không mở được cửa sổ nổi — trình duyệt chặn popup. Cho phép popup cho facebook.com rồi thử lại.',
+    popup_blocked: 'Không mở được cửa sổ nổi — trình duyệt chặn popup. Cho phép popup cho trang này rồi thử lại.',
     open_error: 'Lỗi mở PiP: {msg}',
     dpip_unsupported: 'Trình duyệt chưa hỗ trợ Document PiP. Cần Chrome 116 trở lên.',
     // Popup
@@ -111,7 +112,7 @@ const MESSAGES = {
     btn_activate: 'Kích hoạt',
     pro_active_title: 'PRO đã kích hoạt',
     btn_deactivate: 'Hủy',
-    footer: 'Truy cập <strong>facebook.com</strong> và bấm nút <span class="footer-pip-badge">PiP</span> trên reel để bắt đầu.',
+    footer: 'Mở một video trên <strong>Facebook</strong>, <strong>YouTube</strong> hoặc <strong>Netflix</strong> và bấm nút <span class="footer-pip-badge">PiP</span> để bắt đầu.',
     plan_free: 'Free',
     plan_pro: '✦ PRO',
     msg_enter_key: 'Vui lòng nhập license key.',
@@ -144,6 +145,7 @@ const MESSAGES = {
   en: {
     trigger_title: 'Open in Picture-in-Picture (PiP Booster)',
     review_ask: 'Enjoying PiP Booster? A quick rating helps a lot.',
+    subs_pro_hint: 'Subtitles in the floating window are a PRO feature. Upgrade from the PiP Booster icon.',
     review_rate: '★ Rate it',
     review_feedback: 'Report a problem',
     review_close: 'Close',
@@ -216,7 +218,7 @@ const MESSAGES = {
     search_suffix: 'movie',
     pro_feature: 'PRO feature',
     pro_unlock: 'Unlock with a license key<br>in the extension popup.',
-    popup_blocked: 'Could not open floating window — popup blocked. Allow popups for facebook.com then try again.',
+    popup_blocked: 'Could not open floating window — popup blocked. Allow popups for this site then try again.',
     open_error: 'Failed to open PiP: {msg}',
     dpip_unsupported: 'Your browser does not support Document PiP. Chrome 116+ required.',
     features: 'Features',
@@ -230,7 +232,7 @@ const MESSAGES = {
     btn_activate: 'Activate',
     pro_active_title: 'PRO activated',
     btn_deactivate: 'Deactivate',
-    footer: 'Go to <strong>facebook.com</strong> and click the <span class="footer-pip-badge">PiP</span> button on a reel to start.',
+    footer: 'Open a video on <strong>Facebook</strong>, <strong>YouTube</strong> or <strong>Netflix</strong> and click the <span class="footer-pip-badge">PiP</span> button to start.',
     plan_free: 'Free',
     plan_pro: '✦ PRO',
     msg_enter_key: 'Please enter a license key.',

@@ -39,7 +39,7 @@ export const ALLOWED_EVENTS = new Set([
 ]);
 
 /** Thuộc tính cho phép: chỉ chuỗi ngắn / số / boolean, key trong danh sách. */
-const ALLOWED_PROPS = new Set(['feature', 'reason', 'direction', 'surface', 'kind']);
+const ALLOWED_PROPS = new Set(['feature', 'reason', 'direction', 'surface', 'kind', 'platform']);
 const MAX_PROP_LEN = 40;
 
 function sanitizeProps(props) {

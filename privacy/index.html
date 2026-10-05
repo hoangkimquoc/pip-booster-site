@@ -7,7 +7,7 @@
 <link rel="icon" href="../img/icon-128.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -24,12 +24,12 @@
 </header>
 <main class="wrap narrow legal">
   <h1>Privacy Policy</h1>
-  <p class="muted">Last updated: October 1, 2026</p>
+  <p class="muted">Last updated: October 5, 2026</p>
 
-  <p>PiP Booster ("the extension") is a Chrome extension that lets you watch Facebook Reels in a floating Picture-in-Picture window or a full-screen cinema view.</p>
+  <p>PiP Booster ("the extension") is a Chrome extension that lets you watch videos from YouTube, Netflix and Facebook Reels in a floating Picture-in-Picture window or a full-screen cinema view, with the site's subtitles shown inside the window.</p>
 
   <h2>What stays on your device</h2>
-  <p>To provide its features, the extension reads parts of the Facebook page you are viewing (the reel video, visible engagement counts such as likes, comments and shares, and visible comments for the "Find movie" feature). <strong>This content is processed locally in your browser and is never sent to us or to any third party.</strong></p>
+  <p>To provide its features, the extension reads parts of the supported page you are viewing: the video element, the subtitle or caption text the site is currently displaying, and on Facebook the visible engagement counts (likes, comments, shares) and visible comments for the "Find movie" feature. The extension does not record, download or decrypt any video. <strong>This content is processed locally in your browser and is never sent to us or to any third party.</strong></p>
   <p>Your settings (language, toggles) and license status are stored in your browser's extension storage (<code>chrome.storage.local</code>).</p>
   <p>For the free 24-hour PRO trial, the extension stores only the trial start time in Chrome's sync storage (<code>chrome.storage.sync</code>), which Chrome syncs with your Google account. This keeps the trial from restarting on reinstall. It contains no other data.</p>
 
@@ -37,8 +37,8 @@
   <p>Purchases are processed by <strong>Polar</strong> (polar.sh), our merchant of record. We never see or store your payment details. When you activate a license key, the extension sends the key, our organization ID and a random device label to Polar's license API to activate and periodically (about once a day) re-validate the key. See <a href="https://polar.sh/legal/privacy">Polar's privacy policy</a>.</p>
 
   <h2>Anonymous usage statistics (PostHog)</h2>
-  <p>If enabled, the extension sends anonymous usage events to <strong>PostHog</strong> (posthog.com) to help us understand which features are used and improve the product — for example "picture-in-picture opened" or "upgrade button clicked". Each event contains only: the event name, the extension version, your browser language, your plan (free/pro), and a random installation ID generated on your device.</p>
-  <p>We <strong>do not</strong> send URLs, Facebook content, comments, names, email addresses or any other personal information. No user profiles are created.</p>
+  <p>If enabled, the extension sends anonymous usage events to <strong>PostHog</strong> (posthog.com) to help us understand which features are used and improve the product — for example "picture-in-picture opened" or "upgrade button clicked". Each event contains only: the event name, the extension version, your browser language, your plan (free/pro), the site the feature was used on (for example "youtube"), and a random installation ID generated on your device.</p>
+  <p>We <strong>do not</strong> send URLs, video titles, subtitles, page content, comments, names, email addresses or any other personal information. No user profiles are created.</p>
   <p>You can turn this off at any time in the extension popup ("Share anonymous usage stats").</p>
 
   <h2>What we do not do</h2>
@@ -64,7 +64,7 @@
       <a href="../privacy/">Privacy</a><a href="../terms/">Terms</a><a href="../refund/">Refunds</a>
     </div>
   </div>
-  <p class="wrap fine disclaimer">PiP Booster is an independent product and is not affiliated with or endorsed by Meta Platforms, Inc. Facebook is a trademark of Meta Platforms, Inc.</p>
+  <p class="wrap fine disclaimer">PiP Booster is an independent product and is not affiliated with or endorsed by YouTube, Google, Netflix or Meta. YouTube, Netflix and Facebook are trademarks of their respective owners.</p>
 </footer>
 </body>
 </html>

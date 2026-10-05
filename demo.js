@@ -36,7 +36,11 @@ const DEMO_CSS = `
   #pip-wrapper { position: absolute; inset: 0; }
   video { width: 100%; height: 100%; object-fit: cover; }
   :host(.reveal) #pip-toolbar { opacity: 1; }
+  .pb-subs { font-size: 14px; bottom: 22%; }
 `;
+/** Phụ đề mẫu: minh hoạ tính năng chép phụ đề vào cửa sổ nổi (class .pb-subs thật của extension). */
+const DEMO_SUBS = ['Subtitles follow the video', 'into the floating window.', '', 'YouTube captions, Netflix subtitles.', ''];
+const SUB_MS = 2200;
 const shadow = frame.attachShadow({ mode: 'open' });
 const style = document.createElement('style');
 style.textContent = PIP_STYLES + DEMO_CSS;
@@ -56,6 +60,16 @@ video.loop = true;
 video.playsInline = true;
 video.autoplay = true;
 wrapper.appendChild(video);
+
+const subs = document.createElement('div');
+subs.className = 'pb-subs';
+wrapper.appendChild(subs);
+let subIndex = 0;
+setInterval(() => {
+  const line = DEMO_SUBS[subIndex++ % DEMO_SUBS.length];
+  subs.textContent = line;
+  subs.hidden = !line;
+}, SUB_MS);
 
 function showNote(text) {
   note.textContent = text;
@@ -98,7 +112,7 @@ wrapper.addEventListener('click', (e) => {
   if (!btn || !FB_ONLY_TIPS.has(btn.dataset.tip)) return;
   e.stopPropagation();
   e.preventDefault();
-  showNote('Works on facebook.com reels');
+  showNote('Works on the real site');
 }, true);
 
 reopen.addEventListener('click', () => {

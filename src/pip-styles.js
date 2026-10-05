@@ -45,6 +45,15 @@ export const PIP_STYLES = `
     }
 
     /* Toolbar ẩn, hiện khi hover */
+    /* Phụ đề nền tảng chép sang (subtitle-mirror.js) — nằm trên toolbar */
+    .pb-subs {
+      position: absolute; left: 4%; right: 4%; bottom: 14%; z-index: 15;
+      text-align: center; white-space: pre-line; pointer-events: none;
+      font-size: clamp(13px, 4.2vmin, 26px); line-height: 1.35; font-weight: 600; color: #fff;
+      text-shadow: 0 0 3px #000, 0 0 6px #000, 0 1px 2px #000;
+    }
+    .pb-subs[hidden] { display: none; }
+
     #pip-toolbar {
       position: absolute;
       bottom: 0;

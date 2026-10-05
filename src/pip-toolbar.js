@@ -21,6 +21,7 @@ import { buildReelActionControls } from './toolbar-reel-actions.js';
 import { enableTapToToggle } from './toolbar-tap-toggle.js';
 import { buildDownloadButton } from './toolbar-download-button.js';
 import { track } from './analytics.js';
+import { platformSupports } from './platform.js';
 
 const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2, 3];
 const SEEK_STEP_S = 10;
@@ -51,7 +52,7 @@ export function buildToolbar(video, host, opts = {}) {
 
   // --- Menu nổi: mở cái này thì đóng các cái khác ---
   const menus = [];
-  const closeMenus = (except) => menus.forEach((m) => { if (m !== except) m.classList.remove('open'); });
+  const closeMenus = (except) => menus.forEach((m) => { if (m && m !== except) m.classList.remove('open'); });
   const toggleMenu = (menu, btn) => {
     const willOpen = !menu.classList.contains('open');
     closeMenus();
@@ -69,21 +70,21 @@ export function buildToolbar(video, host, opts = {}) {
   const volume = buildVolumeControl(doc, video, listen);
   const speed = buildSpeedControl(doc, video);
   const size = showSize ? buildSizeControl(doc, host) : null;
-  const score = buildScoreBadge(doc, reelContainer);
+  const score = platformSupports('score') ? buildScoreBadge(doc, reelContainer) : null;
   // Bản Chrome Web Store: không có tải video (module bị loại khỏi bundle →
   // chỉ tham chiếu buildDownloadButton khi cờ bật).
   const download = PRODUCT_CONFIG.features.download ? buildDownloadButton(doc, video) : null;
-  const movie = buildMovieLookup(doc, { isPro, reelContainer });
-  const reelActions = buildReelActionControls(doc, { video, onNav, closeMenus });
+  const movie = platformSupports('movieLookup') ? buildMovieLookup(doc, { isPro, reelContainer }) : null;
+  const reelActions = platformSupports('reelActions') ? buildReelActionControls(doc, { video, onNav, closeMenus }) : null;
 
-  menus.push(speed.menu, score.breakdownEl, reelActions.ccMenu);
+  menus.push(speed.menu, score && score.breakdownEl, reelActions && reelActions.ccMenu);
   bindMenu(speed.button, speed.menu);
   if (size) {
     menus.push(size.menu);
     bindMenu(size.button, size.menu);
   }
   // Chi tiết điểm (số liệu tạo nên điểm) — miễn phí cho mọi người
-  bindMenu(score.badge, score.breakdownEl);
+  if (score) bindMenu(score.badge, score.breakdownEl);
 
   const btnClose = makeBtn(doc, icons.x(), t('close'));
   btnClose.classList.add('tb-close');
@@ -91,8 +92,8 @@ export function buildToolbar(video, host, opts = {}) {
 
   const row1 = makeRow(doc, [...playback, spacer(doc), volume, btnClose]);
   const row2 = makeRow(doc, [
-    speed.button, size && size.button, ...reelActions.buttons,
-    spacer(doc), score.badge, download && download.button, movie.button,
+    speed.button, size && size.button, ...(reelActions ? reelActions.buttons : []),
+    spacer(doc), score && score.badge, download && download.button, movie && movie.button,
   ]);
 
   // 2 hàng trong 1 khung → CSS gộp thành 1 hàng khi toolbar rộng
@@ -104,14 +105,14 @@ export function buildToolbar(video, host, opts = {}) {
   listen(doc, 'click', () => closeMenus());
 
   const closeOpenMenus = () => {
-    const anyOpen = menus.some((m) => m.classList.contains('open'));
+    const anyOpen = menus.some((m) => m && m.classList.contains('open'));
     closeMenus();
     return anyOpen;
   };
   const tapFlash = enableTapToToggle(doc, video, listen, closeOpenMenus);
 
   // Panel/menu nổi nằm ngoài toolbar (con trực tiếp của wrapper) để định vị tự do
-  toolbar._overlays = [...menus, movie.panel, tapFlash];
+  toolbar._overlays = [...menus, movie && movie.panel, tapFlash].filter(Boolean);
   toolbar._dispose = () => {
     lifetime.abort();
     download?.stop();

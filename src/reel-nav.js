@@ -3,6 +3,7 @@
  */
 
 import { DEBUG, pipLog } from './debug-log.js';
+import { getPlatform } from './platform.js';
 
 /** Thời gian chờ FB render reel mới sau khi bấm next/prev. */
 const REEL_SWAP_WAIT_MS = 700;
@@ -22,17 +23,7 @@ export function elInViewport(el) {
   return r.width > 0 && r.height > 0 && r.bottom > 0 && r.right > 0 && r.top < vh && r.left < vw;
 }
 
-// Trang reel có nhiều cặp nút ("Mục tiếp theo" = carousel khác, "Thẻ tiếp theo"
-// = chuyển reel thật). Thử theo thứ tự ưu tiên: nhãn "card/thẻ" trước, chung chung sau.
-const NEXT_SELECTORS = [
-  '[aria-label*="thẻ tiếp theo" i], [aria-label*="next card" i]',
-  '[aria-label*="tiếp theo" i], [aria-label*="next" i]',
-];
-const PREV_SELECTORS = [
-  '[aria-label*="thẻ trước" i], [aria-label*="previous card" i]',
-  '[aria-label*="trước đó" i], [aria-label*="previous" i]',
-];
-
+// Selector nút next/prev theo nền tảng (platform-*.js), thử theo thứ tự ưu tiên.
 function firstVisible(selectors) {
   for (const sel of selectors) {
     for (const b of document.querySelectorAll(sel)) {
@@ -44,12 +35,12 @@ function firstVisible(selectors) {
 
 /** Nút "reel tiếp theo" đang hiển thị. */
 export function findNextReelButton() {
-  return firstVisible(NEXT_SELECTORS);
+  return firstVisible(getPlatform().nextSelectors);
 }
 
 /** Nút "reel trước đó" đang hiển thị. */
 export function findPrevReelButton() {
-  return firstVisible(PREV_SELECTORS);
+  return firstVisible(getPlatform().prevSelectors);
 }
 
 // Player đang mở (PiP/Cinema) — video đã rời feed nên auto-next phải hỏi ở đây.
@@ -101,6 +92,7 @@ export async function swapToAdjacentReel(dir, oldVideo) {
   if (!btn) return null;
   btn.click();
   await waitMs(REEL_SWAP_WAIT_MS);
+  // Nền tảng tái dùng CÙNG <video> (YouTube) → video trong PiP tự phát nội dung mới, không cần swap
   const nv = findVisibleVideo();
   pipLog('reelSwap: after', { foundVideo: !!nv, sameAsOld: nv === oldVideo });
   return nv && nv !== oldVideo ? nv : null;
