@@ -8,6 +8,8 @@
  *   <video> đã sang cửa sổ PiP (spike 2026-10-05) → subtitle-mirror chép sang.
  */
 
+import { pageCall } from './page-bridge.js';
+
 const SHORTS_PATH_RE = /^\/shorts\//;
 
 /** Số lần chính extension đã next (SPA) → prev chỉ lùi lịch sử trong phạm vi này, không thoát YouTube. */
@@ -63,6 +65,11 @@ export const youtubePlatform = {
     '.ytp-prev-button',
   ],
   navigate: navigateWatchPage,
+  /** Tốc độ qua API player (gán thẳng <video> bị YouTube ghi đè lúc khởi tạo); Shorts / lỗi → gán thẳng. */
+  setRate(video, rate) {
+    if (SHORTS_PATH_RE.test(location.pathname)) { video.playbackRate = rate; return; }
+    pageCall('setRate', rate).catch(() => { video.playbackRate = rate; });
+  },
   findVisibleAd: () => null,
   subtitles: {
     selector: '.ytp-caption-segment',

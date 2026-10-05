@@ -4,6 +4,7 @@
  */
 
 import { formatTime } from './toolbar-dom-helpers.js';
+import { seekVideo } from './video-control.js';
 
 /**
  * @param {Document} doc
@@ -34,7 +35,7 @@ export function buildProgressBar(doc, video, listen) {
     handle.style.left = `${r * 100}%`;
   };
   const seekTo = (r) => {
-    if (video.duration) video.currentTime = video.duration * r;
+    if (video.duration) seekVideo(video, video.duration * r);
   };
 
   let dragging = false;

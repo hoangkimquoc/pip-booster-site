@@ -20,4 +20,10 @@ export const STORAGE_KEYS = {
   ytSkipSponsors: 'pip_booster_yt_skip_sponsors',
   /** PRO: tốc độ phát nhớ theo kênh YouTube { [channel]: rate } */
   ytChannelSpeed: 'pip_booster_yt_channel_speed',
+  /** PRO: Netflix tự bỏ intro/recap + tự sang tập kế. Chưa đặt = BẬT */
+  nfAutoSkip: 'pip_booster_nf_auto_skip',
+  /** PRO: kích thước cửa sổ PiP đã nhớ { "youtube:landscape": {width,height} } */
+  pipSizes: 'pip_booster_pip_sizes',
+  /** PRO (beta): tự mở PiP khi chuyển tab. Mặc định TẮT */
+  autoPip: 'pip_booster_auto_pip',
 };

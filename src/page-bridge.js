@@ -1,10 +1,11 @@
 /**
- * youtube-bridge.js — Phía content script (isolated world) gọi yt-main-bridge.js
- * (MAIN world) để dùng API player YouTube: phụ đề, chất lượng.
+ * page-bridge.js — Phía content script (isolated world) gọi script MAIN world của trang
+ * (yt-main-bridge.js trên YouTube, nf-main-bridge.js trên Netflix) để dùng API player
+ * mà isolated world không với tới.
  */
 
-const REQ = 'pipbooster-yt-req';
-const RES = 'pipbooster-yt-res';
+const REQ = 'pipbooster-page-req';
+const RES = 'pipbooster-page-res';
 const CALL_TIMEOUT_MS = 4000;
 
 const pending = new Map();
@@ -27,10 +28,10 @@ function listen() {
 
 /**
  * Gọi lệnh của bridge MAIN world.
- * @param {'captions'|'setCaption'|'qualities'|'setQuality'} cmd
+ * @param {string} cmd - lệnh của bridge trang hiện tại
  * @returns {Promise<any>} reject khi lỗi / quá thời gian (bridge chưa nạp)
  */
-export function ytCall(cmd, ...args) {
+export function pageCall(cmd, ...args) {
   listen();
   const id = `pb${++seq}-${Math.random().toString(36).slice(2, 8)}`;
   return new Promise((resolve, reject) => {

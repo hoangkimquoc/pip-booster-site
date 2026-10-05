@@ -269,6 +269,11 @@ export const PIP_STYLES = `
     .yt-chapter-label { font-size: 12px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-left: 4px; }
     .yt-chapter-label:empty { display: none; }
     @container (max-width: 400px) { .yt-chapter-label { display: none; } }
+    /* Netflix: nút chữ (Âm thanh) + nút nổi "Bỏ qua phần mở đầu" như của Netflix */
+    .nf-text-btn { font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .nf-skip { position: absolute; right: 12px; bottom: 112px; z-index: 16; display: none;
+      background: rgba(20,20,30,0.85); border: 1px solid rgba(255,255,255,0.35); border-radius: 8px; padding: 6px 12px; gap: 6px; }
+    .nf-skip.show { display: inline-flex; align-items: center; }
     .ab-loop .ab-label { font-size: 11px; font-weight: 700; letter-spacing: 0.02em; }
     .ab-loop svg { margin-left: 2px; }
 

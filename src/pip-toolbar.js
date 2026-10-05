@@ -19,10 +19,12 @@ import { buildScoreBadge } from './toolbar-score-badge.js';
 import { buildMovieLookup } from './toolbar-movie-panel.js';
 import { buildReelActionControls } from './toolbar-reel-actions.js';
 import { buildYoutubeTools } from './toolbar-youtube-tools.js';
+import { buildNetflixTools } from './toolbar-netflix-tools.js';
 import { enableTapToToggle } from './toolbar-tap-toggle.js';
 import { buildDownloadButton } from './toolbar-download-button.js';
 import { track } from './analytics.js';
 import { platformSupports } from './platform.js';
+import { seekVideo, setVideoRate } from './video-control.js';
 
 const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2, 3];
 const SEEK_STEP_S = 10;
@@ -77,9 +79,12 @@ export function buildToolbar(video, host, opts = {}) {
   const download = PRODUCT_CONFIG.features.download ? buildDownloadButton(doc, video) : null;
   const movie = platformSupports('movieLookup') ? buildMovieLookup(doc, { isPro, reelContainer }) : null;
   const reelActions = platformSupports('reelActions') ? buildReelActionControls(doc, { video, onNav, closeMenus }) : null;
-  const ytTools = platformSupports('youtubeTools') ? buildYoutubeTools(doc, { video, closeMenus, listen, isPro }) : null;
+  // Công cụ riêng theo nền tảng (YouTube / Netflix): { buttons, menus, overlays? }
+  const siteTools = platformSupports('youtubeTools') ? buildYoutubeTools(doc, { video, closeMenus, listen, isPro })
+    : platformSupports('netflixTools') ? buildNetflixTools(doc, { video, closeMenus, listen })
+    : null;
 
-  menus.push(speed.menu, score && score.breakdownEl, reelActions && reelActions.ccMenu, ...(ytTools ? ytTools.menus : []));
+  menus.push(speed.menu, score && score.breakdownEl, reelActions && reelActions.ccMenu, ...(siteTools ? siteTools.menus : []));
   bindMenu(speed.button, speed.menu);
   if (size) {
     menus.push(size.menu);
@@ -94,7 +99,7 @@ export function buildToolbar(video, host, opts = {}) {
 
   const row1 = makeRow(doc, [...playback, spacer(doc), volume, btnClose]);
   const row2 = makeRow(doc, [
-    speed.button, size && size.button, ...(reelActions ? reelActions.buttons : []), ...(ytTools ? ytTools.buttons : []),
+    speed.button, size && size.button, ...(reelActions ? reelActions.buttons : []), ...(siteTools ? siteTools.buttons : []),
     spacer(doc), score && score.badge, download && download.button, movie && movie.button,
   ]);
 
@@ -114,7 +119,7 @@ export function buildToolbar(video, host, opts = {}) {
   const tapFlash = enableTapToToggle(doc, video, listen, closeOpenMenus);
 
   // Panel/menu nổi nằm ngoài toolbar (con trực tiếp của wrapper) để định vị tự do
-  toolbar._overlays = [...menus, movie && movie.panel, tapFlash].filter(Boolean);
+  toolbar._overlays = [...menus, movie && movie.panel, tapFlash, ...(siteTools?.overlays || [])].filter(Boolean);
   toolbar._dispose = () => {
     lifetime.abort();
     download?.stop();
@@ -165,12 +170,12 @@ function buildPlaybackButtons(doc, video, onNav, listen) {
 
   const btnRewind = makeBtn(doc, icons.arrowCounterClockwise(), t('rewind'));
   btnRewind.addEventListener('click', () => {
-    video.currentTime = Math.max(0, video.currentTime - SEEK_STEP_S);
+    seekVideo(video, video.currentTime - SEEK_STEP_S);
   });
 
   const btnForward = makeBtn(doc, icons.arrowClockwise(), t('forward'));
   btnForward.addEventListener('click', () => {
-    video.currentTime = Math.min(video.duration || Infinity, video.currentTime + SEEK_STEP_S);
+    seekVideo(video, video.currentTime + SEEK_STEP_S);
   });
 
   if (typeof onNav !== 'function') return [btnRewind, btnPlayPause, btnForward];
@@ -243,7 +248,7 @@ function buildSpeedControl(doc, video, listen) {
     opt.dataset.rate = String(s);
     opt.textContent = `${s}x`;
     opt.addEventListener('click', () => {
-      video.playbackRate = s;
+      setVideoRate(video, s);
       menu.classList.remove('open');
       sync();
     });

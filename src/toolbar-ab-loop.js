@@ -9,6 +9,7 @@ import { icons } from './icons.js';
 import { t } from './i18n.js';
 import { formatTime, makeBtn, showProGateMessage, anchorMenu } from './toolbar-dom-helpers.js';
 import { track } from './analytics.js';
+import { seekVideo } from './video-control.js';
 
 /** B phải sau A ít nhất chừng này giây (tránh lặp đoạn rỗng). */
 const MIN_LOOP_S = 1;
@@ -68,7 +69,7 @@ export function buildAbLoop(doc, { video, isPro, listen }) {
   });
   // Lặp: tới B → về A. Sang video khác (src đổi) → tắt.
   listen(video, 'timeupdate', () => {
-    if (state.b !== null && video.currentTime >= state.b) video.currentTime = state.a;
+    if (state.b !== null && video.currentTime >= state.b) seekVideo(video, state.a);
   });
   listen(video, 'loadedmetadata', () => { state = { a: null, b: null }; render(); });
   render();

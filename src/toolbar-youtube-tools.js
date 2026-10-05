@@ -4,17 +4,19 @@
  *
  *   Chapter · Phụ đề (bật/tắt + ngôn ngữ) · Chất lượng · Lặp video · A-B · Like
  *
- * Phụ đề/chất lượng qua API player (youtube-bridge → yt-main-bridge, MAIN world);
+ * Phụ đề/chất lượng qua API player (page-bridge → yt-main-bridge, MAIN world);
  * chapter đọc DOM mô tả; lặp = video.loop (cách YouTube "Loop" làm); like = nút của trang.
  */
 
 import { icons } from './icons.js';
 import { t } from './i18n.js';
-import { anchorMenu, escapeHtml, formatTime, makeBtn } from './toolbar-dom-helpers.js';
+import { formatTime, makeBtn } from './toolbar-dom-helpers.js';
+import { createMenuKit } from './toolbar-menu-kit.js';
 import { track } from './analytics.js';
-import { ytCall } from './youtube-bridge.js';
+import { pageCall } from './page-bridge.js';
 import { chapterIndexAt, readChapters } from './youtube-chapters.js';
 import { buildAbLoop } from './toolbar-ab-loop.js';
+import { seekVideo } from './video-control.js';
 
 /** Nhãn chất lượng theo mã của YouTube. */
 const QUALITY_LABELS = {
@@ -32,41 +34,7 @@ const LIKE_SETTLE_MS = 600;
 export function buildYoutubeTools(doc, ctx) {
   if (/^\/shorts\//.test(location.pathname)) return null;
   const { video, closeMenus, listen, isPro = false } = ctx;
-
-  /** Mở menu `menu` dưới nút `btn`, nội dung do `fill(menu)` dựng (có thể async). */
-  const openMenu = async (btn, menu, fill) => {
-    if (menu.classList.contains('open')) { menu.classList.remove('open'); return; }
-    closeMenus(menu);
-    menu.innerHTML = `<div class="pb-menu-note">${escapeHtml(t('cc_loading'))}</div>`;
-    menu.classList.add('open');
-    anchorMenu(menu, btn);
-    try {
-      await fill(menu);
-    } catch {
-      menu.innerHTML = `<div class="pb-menu-note">${escapeHtml(t('yt_action_failed'))}</div>`;
-    }
-    anchorMenu(menu, btn); // kích thước menu đổi sau khi có dữ liệu
-  };
-
-  /** Một dòng chọn trong menu. */
-  const option = (label, active, onPick) => {
-    const opt = doc.createElement('button');
-    opt.className = 'speed-opt' + (active ? ' active' : '');
-    opt.textContent = label;
-    opt.addEventListener('click', (e) => {
-      e.stopPropagation();
-      opt.closest('.pb-menu')?.classList.remove('open');
-      void onPick();
-    });
-    return opt;
-  };
-
-  const newMenu = (id) => {
-    const m = doc.createElement('div');
-    m.id = id;
-    m.className = 'pb-menu';
-    return m;
-  };
+  const { newMenu, option, note, openMenu } = createMenuKit(doc, closeMenus);
 
   // --- Chapter: nhãn chapter hiện tại + menu nhảy chapter ---
   const chapterMenu = newMenu('yt-chapter-menu');
@@ -95,12 +63,12 @@ export function buildYoutubeTools(doc, ctx) {
       const chapters = readChapters();
       menu.innerHTML = '';
       if (!chapters.length) {
-        menu.innerHTML = `<div class="pb-menu-note">${escapeHtml(t('no_chapters'))}</div>`;
+        note(menu, 'no_chapters');
         return;
       }
       const cur = chapterIndexAt(chapters, video.currentTime);
       chapters.forEach((c, i) => menu.appendChild(option(`${formatTime(c.start)}  ${c.title}`, i === cur, () => {
-        video.currentTime = c.start;
+        seekVideo(video, c.start);
         syncChapter();
       })));
     });
@@ -113,14 +81,14 @@ export function buildYoutubeTools(doc, ctx) {
     e.stopPropagation();
     track('yt_tool_used', { feature: 'captions' });
     void openMenu(btnCc, ccMenu, async (menu) => {
-      const { tracks, current } = await ytCall('captions');
+      const { tracks, current } = await pageCall('captions');
       menu.innerHTML = '';
       if (!tracks.length) {
-        menu.innerHTML = `<div class="pb-menu-note">${escapeHtml(t('yt_no_captions'))}</div>`;
+        note(menu, 'yt_no_captions');
         return;
       }
       const pick = async (id) => {
-        const ok = await ytCall('setCaption', id);
+        const ok = await pageCall('setCaption', id);
         btnCc.classList.toggle('active', !!(ok && id));
       };
       menu.appendChild(option(t('cc_off'), !current, () => pick(null)));
@@ -138,14 +106,14 @@ export function buildYoutubeTools(doc, ctx) {
     e.stopPropagation();
     track('yt_tool_used', { feature: 'quality' });
     void openMenu(btnQuality, qualityMenu, async (menu) => {
-      const { levels, current } = await ytCall('qualities');
+      const { levels, current } = await pageCall('qualities');
       const active = chosenQuality || current;
       menu.innerHTML = '';
       for (const q of levels) {
         const name = q === 'auto' ? t('quality_auto') : (QUALITY_LABELS[q] || q);
         menu.appendChild(option(name, q === active, () => {
           chosenQuality = q;
-          return ytCall('setQuality', q);
+          return pageCall('setQuality', q);
         }));
       }
     });

@@ -8,6 +8,11 @@
  * Phụ đề trong cửa sổ nổi = tính năng PRO (nỗi đau có người sẵn sàng trả tiền).
  */
 
+import { pageCall } from './page-bridge.js';
+
+/** Lỗi bridge (chưa nạp / không ở trang phát) → bỏ qua, không làm vỡ toolbar. */
+const fireAndForget = (cmd, ...args) => { pageCall(cmd, ...args).catch(() => {}); };
+
 function findNetflixContainers() {
   const video = document.querySelector('video');
   if (!video) return [];
@@ -21,9 +26,17 @@ export const netflixPlatform = {
   findContainers: findNetflixContainers,
   findVideo: (container) => container.querySelector('video'),
   getStats: () => ({ views: null, likes: null, comments: null, shares: null }),
-  // Tập kế: nút của Netflix chỉ hiện khi rê chuột; không có thì PiP giữ nguyên tập đang xem
-  nextSelectors: ['[data-uia="control-next"]'],
+  nextSelectors: [],
   prevSelectors: [],
+  // Netflix cấm gán thẳng <video>.currentTime (lỗi M7375) → mọi thao tác qua API trình phát (nf-main-bridge)
+  seek: (video, sec) => fireAndForget('seek', sec),
+  setRate: (video, rate) => fireAndForget('setRate', rate),
+  /** Next = tập kế (API Netflix, cùng <video> nên PiP giữ nguyên). Prev = xem lại từ đầu tập. */
+  navigate(dir) {
+    if (dir === 'next') fireAndForget('nextEpisode');
+    else fireAndForget('seek', 0);
+    return true;
+  },
   findVisibleAd: () => null,
   subtitles: {
     selector: '.player-timedtext',
@@ -33,5 +46,6 @@ export const netflixPlatform = {
   features: {
     score: false, autoNext: false, skipAds: false, skipBoring: false,
     reelActions: false, movieLookup: false, partLinks: false,
+    netflixTools: true, netflixAutoSkip: true,
   },
 };
