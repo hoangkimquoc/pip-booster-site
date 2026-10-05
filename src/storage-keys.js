@@ -16,4 +16,8 @@ export const STORAGE_KEYS = {
   trial: 'pip_booster_trial',
   /** Mời đánh giá store: { uses, asks, nextAskAt, done } (xem review-prompt.js) */
   reviewPrompt: 'pip_booster_review_prompt',
+  /** PRO: tự bỏ qua đoạn tài trợ YouTube (SponsorBlock). Chưa đặt = BẬT */
+  ytSkipSponsors: 'pip_booster_yt_skip_sponsors',
+  /** PRO: tốc độ phát nhớ theo kênh YouTube { [channel]: rate } */
+  ytChannelSpeed: 'pip_booster_yt_channel_speed',
 };

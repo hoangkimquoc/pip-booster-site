@@ -264,6 +264,14 @@ export const PIP_STYLES = `
     .pb-menu .speed-opt { text-align: left; white-space: nowrap; }
     .pb-menu-note { font-size: 12px; color: #9ca3af; padding: 6px 10px; white-space: nowrap; }
 
+    /* YouTube: nút chapter (ẩn khi video không có chương) + nhãn chương hiện tại */
+    .yt-chapter:not(.has-chapters) { display: none; }
+    .yt-chapter-label { font-size: 12px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-left: 4px; }
+    .yt-chapter-label:empty { display: none; }
+    @container (max-width: 400px) { .yt-chapter-label { display: none; } }
+    .ab-loop .ab-label { font-size: 11px; font-weight: 700; letter-spacing: 0.02em; }
+    .ab-loop svg { margin-left: 2px; }
+
     /* Badge PiP Score */
     #pip-score-badge {
       display: flex;

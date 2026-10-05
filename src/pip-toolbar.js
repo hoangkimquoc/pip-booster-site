@@ -18,6 +18,7 @@ import { buildProgressBar } from './toolbar-progress-bar.js';
 import { buildScoreBadge } from './toolbar-score-badge.js';
 import { buildMovieLookup } from './toolbar-movie-panel.js';
 import { buildReelActionControls } from './toolbar-reel-actions.js';
+import { buildYoutubeTools } from './toolbar-youtube-tools.js';
 import { enableTapToToggle } from './toolbar-tap-toggle.js';
 import { buildDownloadButton } from './toolbar-download-button.js';
 import { track } from './analytics.js';
@@ -68,7 +69,7 @@ export function buildToolbar(video, host, opts = {}) {
 
   const playback = buildPlaybackButtons(doc, video, onNav, listen);
   const volume = buildVolumeControl(doc, video, listen);
-  const speed = buildSpeedControl(doc, video);
+  const speed = buildSpeedControl(doc, video, listen);
   const size = showSize ? buildSizeControl(doc, host) : null;
   const score = platformSupports('score') ? buildScoreBadge(doc, reelContainer) : null;
   // Bản Chrome Web Store: không có tải video (module bị loại khỏi bundle →
@@ -76,8 +77,9 @@ export function buildToolbar(video, host, opts = {}) {
   const download = PRODUCT_CONFIG.features.download ? buildDownloadButton(doc, video) : null;
   const movie = platformSupports('movieLookup') ? buildMovieLookup(doc, { isPro, reelContainer }) : null;
   const reelActions = platformSupports('reelActions') ? buildReelActionControls(doc, { video, onNav, closeMenus }) : null;
+  const ytTools = platformSupports('youtubeTools') ? buildYoutubeTools(doc, { video, closeMenus, listen, isPro }) : null;
 
-  menus.push(speed.menu, score && score.breakdownEl, reelActions && reelActions.ccMenu);
+  menus.push(speed.menu, score && score.breakdownEl, reelActions && reelActions.ccMenu, ...(ytTools ? ytTools.menus : []));
   bindMenu(speed.button, speed.menu);
   if (size) {
     menus.push(size.menu);
@@ -92,7 +94,7 @@ export function buildToolbar(video, host, opts = {}) {
 
   const row1 = makeRow(doc, [...playback, spacer(doc), volume, btnClose]);
   const row2 = makeRow(doc, [
-    speed.button, size && size.button, ...(reelActions ? reelActions.buttons : []),
+    speed.button, size && size.button, ...(reelActions ? reelActions.buttons : []), ...(ytTools ? ytTools.buttons : []),
     spacer(doc), score && score.badge, download && download.button, movie && movie.button,
   ]);
 
@@ -221,27 +223,34 @@ function buildVolumeControl(doc, video, listen) {
 }
 
 /** Nút tốc độ (kèm nhãn tốc độ hiện tại) + menu chọn. */
-function buildSpeedControl(doc, video) {
+function buildSpeedControl(doc, video, listen) {
   const button = makeBtn(doc, icons.gauge() + '<span class="speed-label">1x</span>', t('speed'));
   button.id = 'btn-speed';
 
   const menu = doc.createElement('div');
   menu.id = 'speed-menu';
+  // Đồng bộ nhãn + mục đang chọn theo tốc độ thật (đổi từ menu, phím tắt trang, nhớ theo kênh…)
+  const sync = () => {
+    const s = video.playbackRate;
+    menu.querySelectorAll('.speed-opt').forEach((o) => o.classList.toggle('active', o.dataset.rate === String(s)));
+    button.dataset.tip = `${t('speed')}: ${s}x`;
+    const lbl = button.querySelector('.speed-label');
+    if (lbl) lbl.textContent = `${s}x`;
+  };
   for (const s of SPEEDS) {
     const opt = doc.createElement('button');
-    opt.className = 'speed-opt' + (s === 1 ? ' active' : '');
+    opt.className = 'speed-opt';
+    opt.dataset.rate = String(s);
     opt.textContent = `${s}x`;
     opt.addEventListener('click', () => {
       video.playbackRate = s;
-      menu.querySelectorAll('.speed-opt').forEach((o) => o.classList.remove('active'));
-      opt.classList.add('active');
       menu.classList.remove('open');
-      button.dataset.tip = `${t('speed')}: ${s}x`;
-      const lbl = button.querySelector('.speed-label');
-      if (lbl) lbl.textContent = `${s}x`;
+      sync();
     });
     menu.appendChild(opt);
   }
+  listen(video, 'ratechange', sync);
+  sync();
   return { button, menu };
 }
 

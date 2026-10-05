@@ -36,6 +36,7 @@ export const ALLOWED_EVENTS = new Set([
   'reel_skipped_boring',
   'review_prompt_shown',
   'review_prompt_answered',
+  'yt_tool_used',
 ]);
 
 /** Thuộc tính cho phép: chỉ chuỗi ngắn / số / boolean, key trong danh sách. */

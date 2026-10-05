@@ -13,7 +13,8 @@ let currentPlatform = null;
 /** Nền tảng của trang hiện tại (mặc định Facebook khi không xác định được, VD môi trường test). */
 export function getPlatform() {
   if (!currentPlatform) {
-    const host = typeof location !== 'undefined' ? location.hostname : '';
+    // __pbPlatformHost: chỉ harness test layout đặt (giả lập tên miền), bản thật không có
+    const host = globalThis.__pbPlatformHost || (typeof location !== 'undefined' ? location.hostname : '');
     currentPlatform = PLATFORMS.find((p) => p.matches(host)) || facebookPlatform;
   }
   return currentPlatform;

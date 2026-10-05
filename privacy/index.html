@@ -30,11 +30,14 @@
 
   <h2>What stays on your device</h2>
   <p>To provide its features, the extension reads parts of the supported page you are viewing: the video element, the subtitle or caption text the site is currently displaying, and on Facebook the visible engagement counts (likes, comments, shares) and visible comments for the "Find movie" feature. The extension does not record, download or decrypt any video. <strong>This content is processed locally in your browser and is never sent to us or to any third party.</strong></p>
-  <p>Your settings (language, toggles) and license status are stored in your browser's extension storage (<code>chrome.storage.local</code>).</p>
+  <p>Your settings (language, toggles), license status and the playback speed you chose per YouTube channel are stored in your browser's extension storage (<code>chrome.storage.local</code>).</p>
   <p>For the free 24-hour PRO trial, the extension stores only the trial start time in Chrome's sync storage (<code>chrome.storage.sync</code>), which Chrome syncs with your Google account. This keeps the trial from restarting on reinstall. It contains no other data.</p>
 
   <h2>Licensing (Polar)</h2>
   <p>Purchases are processed by <strong>Polar</strong> (polar.sh), our merchant of record. We never see or store your payment details. When you activate a license key, the extension sends the key, our organization ID and a random device label to Polar's license API to activate and periodically (about once a day) re-validate the key. See <a href="https://polar.sh/legal/privacy">Polar's privacy policy</a>.</p>
+
+  <h2>Sponsor segments on YouTube (SponsorBlock)</h2>
+  <p>If "skip sponsor segments" is on (PRO), the extension looks up community-submitted sponsor segments from <strong>SponsorBlock</strong> (sponsor.ajay.app). To protect your privacy it sends only the <strong>first 4 characters of a SHA-256 hash</strong> of the video ID, never the video ID itself, your browsing history or any personal data. The matching video is picked out on your device. SponsorBlock is an independent open-source project: <a href="https://sponsor.ajay.app/">sponsor.ajay.app</a>. You can turn this off in the extension popup.</p>
 
   <h2>Anonymous usage statistics (PostHog)</h2>
   <p>If enabled, the extension sends anonymous usage events to <strong>PostHog</strong> (posthog.com) to help us understand which features are used and improve the product — for example "picture-in-picture opened" or "upgrade button clicked". Each event contains only: the event name, the extension version, your browser language, your plan (free/pro), the site the feature was used on (for example "youtube"), and a random installation ID generated on your device.</p>

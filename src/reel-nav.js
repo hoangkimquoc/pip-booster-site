@@ -76,6 +76,8 @@ export function goToNextReel(reason) {
     player.nav('next');
     return true;
   }
+  const navigate = getPlatform().navigate;
+  if (typeof navigate === 'function' && navigate('next', null)) return true;
   const btn = findNextReelButton();
   pipLog(reason + ': chuyển reel kế', { foundBtn: !!btn });
   if (btn) btn.click();
@@ -87,6 +89,12 @@ export function goToNextReel(reason) {
  * @returns {Promise<HTMLVideoElement|null>} null nếu không có nút / FB chưa đổi reel
  */
 export async function swapToAdjacentReel(dir, oldVideo) {
+  // Nền tảng tự điều hướng (YouTube trang xem: cùng <video> phát nội dung mới) → không swap
+  const navigate = getPlatform().navigate;
+  if (typeof navigate === 'function' && navigate(dir, oldVideo)) {
+    pipLog('reelSwap: platform navigate', { dir });
+    return null;
+  }
   const btn = dir === 'next' ? findNextReelButton() : findPrevReelButton();
   pipLog('reelSwap: click', { dir, foundBtn: !!btn });
   if (!btn) return null;
