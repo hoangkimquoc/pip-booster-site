@@ -74,6 +74,8 @@ export const youtubePlatform = {
   subtitles: {
     selector: '.ytp-caption-segment',
     root: () => document.querySelector('#movie_player') || document.body,
+    // Bật/tắt + chọn ngôn ngữ CC là của YouTube (FREE); đưa phụ đề vào cửa sổ nổi là mình dựng → PRO (FREE xem thử)
+    pro: true,
   },
   features: {
     score: false, autoNext: true, skipAds: false, skipBoring: false,

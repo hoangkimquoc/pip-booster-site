@@ -19,7 +19,7 @@ const MESSAGES = {
     // Trigger
     trigger_title: 'Mở trong Picture-in-Picture (PiP Booster)',
     review_ask: 'Bạn thấy PiP Booster thế nào? Một đánh giá giúp mình rất nhiều.',
-    subs_pro_hint: 'Phụ đề trong cửa sổ nổi là tính năng PRO — nâng cấp trong biểu tượng PiP Booster.',
+    subs_pro_hint: 'Hết 2 phút xem thử phụ đề. Giữ phụ đề trong cửa sổ nổi với PRO — nâng cấp trong biểu tượng PiP Booster.',
     review_rate: '★ Đánh giá',
     review_feedback: 'Báo lỗi / góp ý',
     review_close: 'Đóng',
@@ -168,7 +168,7 @@ const MESSAGES = {
   en: {
     trigger_title: 'Open in Picture-in-Picture (PiP Booster)',
     review_ask: 'Enjoying PiP Booster? A quick rating helps a lot.',
-    subs_pro_hint: 'Subtitles in the floating window are a PRO feature. Upgrade from the PiP Booster icon.',
+    subs_pro_hint: 'Your 2-minute subtitle preview is over. Keep subtitles in the floating window with PRO — upgrade from the PiP Booster icon.',
     review_rate: '★ Rate it',
     review_feedback: 'Report a problem',
     review_close: 'Close',
