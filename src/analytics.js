@@ -67,6 +67,9 @@ export function track(event, props) {
  */
 export async function sendEvent(event, props, ctx) {
   if (!PRODUCT_CONFIG.posthogProjectKey || !ALLOWED_EVENTS.has(event)) return;
+  // Chỉ bản cài từ Chrome Web Store (store tự thêm update_url vào manifest) — bản unpacked
+  // (dev, test tự động) không gửi để số liệu sạch
+  if (!chrome.runtime.getManifest().update_url) return;
   const optOut = (await chrome.storage.local.get(STORAGE_KEYS.analyticsOptOut))[STORAGE_KEYS.analyticsOptOut];
   if (optOut) return;
 

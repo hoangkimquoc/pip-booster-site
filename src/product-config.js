@@ -36,8 +36,11 @@ export const PRODUCT_CONFIG = {
   storeReviewUrl: 'https://chromewebstore.google.com/detail/hfclcndligllaglnlbhophplnppjcgnl/reviews',
   feedbackUrl: 'https://github.com/hoangkimquoc/pip-booster-site/issues/new/choose',
 
-  /** PostHog → Project settings → Project API key (phc_...). Trống = tắt thống kê. */
-  posthogProjectKey: '',
+  /**
+   * PostHog (project "PiP Booster", US, ẩn IP) → Project API key (public, chỉ ghi event). Trống = tắt thống kê.
+   * Chỉ bản cài từ store mới gửi (analytics.sendEvent kiểm update_url).
+   */
+  posthogProjectKey: 'phc_A7hmLreVV6Eca2xLCYTK3uRcc6vhXgYn3i6pGWFmd58z',
   /** https://us.i.posthog.com hoặc https://eu.i.posthog.com (theo region project) */
   posthogHost: 'https://us.i.posthog.com',
 };
