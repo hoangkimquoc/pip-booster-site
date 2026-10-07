@@ -2,7 +2,7 @@
  * toolbar-netflix-tools.js — Công cụ riêng Netflix trong PiP/Cinema (FREE: đều là
  * tính năng Netflix có sẵn, chỉ mang vào cửa sổ nổi).
  *
- *   Phụ đề (chọn ngôn ngữ / tắt) · Âm thanh (chọn ngôn ngữ lồng tiếng) · Bỏ qua intro/recap
+ *   Danh sách tập · Phụ đề (chọn ngôn ngữ / tắt) · Âm thanh (chọn ngôn ngữ lồng tiếng) · Bỏ qua intro/recap
  *
  * Mọi thao tác qua API trình phát Netflix (page-bridge → nf-main-bridge, MAIN world).
  * Tập kế / về đầu tập: nút prev/next sẵn có của toolbar (platform-netflix.navigate).
@@ -40,6 +40,53 @@ export function buildNetflixTools(doc, ctx) {
       }
     });
   };
+
+  // --- Danh sách tập (như chapter của YouTube): nhãn tập đang xem + menu chọn tập ---
+  const episodeMenu = newMenu('nf-episode-menu');
+  const btnEpisodes = makeBtn(doc, icons.listBullets() + '<span class="yt-chapter-label"></span>', t('episodes'));
+  btnEpisodes.classList.add('nf-episodes');
+  const epLabel = btnEpisodes.querySelector('.yt-chapter-label');
+  /** Nhãn "Tập 5" (1 mùa) hoặc "M2 · T5" (nhiều mùa). */
+  const episodeLabel = (data) => {
+    for (const s of data.seasons) {
+      const e = s.episodes.find((x) => x.id === data.current);
+      if (e) return data.seasons.length > 1 ? t('season_episode_label', { s: s.seq, n: e.seq }) : t('episode_label', { n: e.seq });
+    }
+    return '';
+  };
+  const loadEpisodes = () => {
+    pageCall('episodes').then((data) => {
+      btnEpisodes.classList.toggle('has-episodes', data.seasons.length > 0);
+      epLabel.textContent = episodeLabel(data);
+    }).catch(() => {});
+  };
+  btnEpisodes.addEventListener('click', (e) => {
+    e.stopPropagation();
+    track('yt_tool_used', { feature: 'nf_episodes', platform: 'netflix' });
+    void openMenu(btnEpisodes, episodeMenu, async (m) => {
+      const data = await pageCall('episodes');
+      m.innerHTML = '';
+      if (!data.seasons.length) { note(m, 'nf_no_episodes'); return; }
+      let active = null;
+      for (const s of data.seasons) {
+        if (data.seasons.length > 1) {
+          const head = doc.createElement('div');
+          head.className = 'pb-menu-note';
+          head.textContent = s.name || t('season_label', { s: s.seq });
+          m.appendChild(head);
+        }
+        for (const ep of s.episodes) {
+          const title = ep.title && !ep.title.endsWith(String(ep.seq)) ? `${ep.seq}. ${ep.title}` : (ep.title || String(ep.seq));
+          const opt = option(title, ep.id === data.current, () => pageCall('playEpisode', ep.id));
+          if (ep.id === data.current) active = opt;
+          m.appendChild(opt);
+        }
+      }
+      active?.scrollIntoView({ block: 'center' });
+    });
+  });
+  listen(video, 'loadedmetadata', loadEpisodes);
+  loadEpisodes();
 
   // --- Phụ đề ---
   const subsMenu = newMenu('nf-subs-menu');
@@ -81,8 +128,8 @@ export function buildNetflixTools(doc, ctx) {
   loadCodes();
 
   return {
-    buttons: [btnSubs, btnAudio],
-    menus: [subsMenu, audioMenu],
+    buttons: [btnEpisodes, btnSubs, btnAudio],
+    menus: [episodeMenu, subsMenu, audioMenu],
     overlays: [btnSkip],
   };
 }

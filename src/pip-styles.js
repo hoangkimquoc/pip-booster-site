@@ -265,7 +265,7 @@ export const PIP_STYLES = `
     .pb-menu-note { font-size: 12px; color: #9ca3af; padding: 6px 10px; white-space: nowrap; }
 
     /* YouTube: nút chapter (ẩn khi video không có chương) + nhãn chương hiện tại */
-    .yt-chapter:not(.has-chapters) { display: none; }
+    .yt-chapter:not(.has-chapters), .nf-episodes:not(.has-episodes) { display: none; }
     .yt-chapter-label { font-size: 12px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-left: 4px; }
     .yt-chapter-label:empty { display: none; }
     @container (max-width: 400px) { .yt-chapter-label { display: none; } }

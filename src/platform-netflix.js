@@ -47,5 +47,7 @@ export const netflixPlatform = {
     score: false, autoNext: false, skipAds: false, skipBoring: false,
     reelActions: false, movieLookup: false, partLinks: false,
     netflixTools: true, netflixAutoSkip: true,
+    // Mỗi tập là một thẻ <video> mới → PiP/Cinema tự nhận thẻ mới (video-replace-watch)
+    replacesVideo: true,
   },
 };
