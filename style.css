@@ -199,6 +199,21 @@ details p { margin: 12px 0 0; color: var(--muted); }
 .foot-links a:hover { color: var(--fg); }
 .foot .disclaimer { margin: 28px auto 0; }
 
+/* ---------- Welcome (sau khi cài) ---------- */
+.welcome { padding: 56px 28px 80px; }
+.welcome h1 { font-size: clamp(34px, 5vw, 52px); letter-spacing: -0.045em; margin: 12px 0 10px; }
+.welcome-steps { list-style: none; padding: 0; margin: 36px 0 0; display: grid; gap: 12px; }
+.welcome-steps li { display: flex; gap: 18px; align-items: flex-start; }
+.welcome-steps b { font: 400 14px var(--mono); color: var(--accent); padding-top: 3px; }
+.welcome-steps h3 { margin: 0 0 4px; }
+.welcome-try { font-size: 24px; letter-spacing: -0.03em; margin: 44px 0 14px; }
+.welcome-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.welcome-tips { margin-top: 36px; }
+.welcome-tips h3 { margin-top: 0; }
+.welcome-tips ul { padding-left: 18px; margin: 8px 0 0; color: var(--muted); }
+.welcome-tips li { margin: 6px 0; }
+.welcome-tips .fine { text-align: left; }
+
 /* ---------- Legal pages ---------- */
 .links { display: flex; gap: 24px; margin-left: auto; }
 .links a { color: var(--muted); text-decoration: none; font-size: 15px; }
