@@ -63,11 +63,14 @@ wrapper.appendChild(video);
 
 const subs = document.createElement('div');
 subs.className = 'pb-subs';
+const subsText = document.createElement('span');
+subsText.className = 'pb-subs-text'; // nền đen mờ như extension thật
+subs.appendChild(subsText);
 wrapper.appendChild(subs);
 let subIndex = 0;
 setInterval(() => {
   const line = DEMO_SUBS[subIndex++ % DEMO_SUBS.length];
-  subs.textContent = line;
+  subsText.textContent = line;
   subs.hidden = !line;
 }, SUB_MS);
 

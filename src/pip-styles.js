@@ -49,10 +49,16 @@ export const PIP_STYLES = `
     .pb-subs {
       position: absolute; left: 4%; right: 4%; bottom: 14%; z-index: 15;
       text-align: center; white-space: pre-line; pointer-events: none;
-      font-size: clamp(13px, 4.2vmin, 26px); line-height: 1.35; font-weight: 600; color: #fff;
-      text-shadow: 0 0 3px #000, 0 0 6px #000, 0 1px 2px #000;
+      font-size: clamp(13px, 4.2vmin, 26px); line-height: 1.5; font-weight: 600; color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
     }
     .pb-subs[hidden] { display: none; }
+    /* Nền đen mờ ôm từng dòng (như CC YouTube/Netflix): đọc rõ trên nền sáng và che phụ đề
+       in cứng (burned-in) của video nằm ngay bên dưới — không có nền thì 2 lớp chữ chồng nhau. */
+    .pb-subs-text {
+      background: rgba(8, 8, 8, 0.78); padding: 0.1em 0.45em; border-radius: 4px;
+      -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    }
 
     #pip-toolbar {
       position: absolute;
