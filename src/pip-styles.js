@@ -43,6 +43,14 @@ export const PIP_STYLES = `
       background: #000;
       min-height: 0;
     }
+    /* YouTube dùng lại CÙNG <video> khi sang video kế và tự ghi lại style inline
+       (left/top/width/height theo khung trang) → trong cửa sổ nổi video bị lệch.
+       !important thắng style inline; chỉ áp trong PiP/Cinema, video ngoài trang không đổi. */
+    #pip-wrapper > video {
+      position: relative !important; left: 0 !important; top: 0 !important;
+      width: 100% !important; height: auto !important; margin: 0 !important;
+      transform: none !important; object-fit: contain !important;
+    }
 
     /* Toolbar ẩn, hiện khi hover */
     /* Phụ đề nền tảng chép sang (subtitle-mirror.js) — nằm trên toolbar */
